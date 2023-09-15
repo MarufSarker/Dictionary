@@ -34,7 +34,8 @@ set_target_properties(Dictionary PROPERTIES
 
 if(NOT(ANDROID))
     set_target_properties(Dictionary PROPERTIES
-        OUTPUT_NAME DictionaryApp # as <build-dir>/Dictionary is an existing directory
+        # as <build-dir>/Dictionary is an existing directory
+        OUTPUT_NAME "${PROJECT_NAME}-${CMAKE_BUILD_TYPE}"
     )
 endif()
 

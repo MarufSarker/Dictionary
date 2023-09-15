@@ -63,6 +63,7 @@ Window {
                 }
                 clip: true
                 spacing: 0
+                interactive: false
             }
         }
     }
