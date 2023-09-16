@@ -88,7 +88,7 @@ Window {
                 Layout.fillWidth: true
                 Keys.onReturnPressed: search.clicked()
                 Keys.onEnterPressed: search.clicked()
-                Keys.onPressed: search.clicked()
+                // Keys.onPressed: search.clicked()
             }
 
             Button {
