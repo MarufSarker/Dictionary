@@ -2,15 +2,18 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Controls.Universal
 
-Window {
+ApplicationWindow {
     width: 640
     height: 480
     visible: true
     title: qsTr("Dictionary")
     minimumWidth: 300
     minimumHeight: 300
-    color: "#2A2E32"
+
+    Universal.theme: Universal.Dark
+    Universal.accent: Universal.Cyan
 
     Component {
         id: listViewDelegate
@@ -18,8 +21,8 @@ Window {
         Rectangle {
             width: parent ? parent.width : 0
             height: childrenRect ? childrenRect.height : 0
-            color: "#2A2E32"
-            border.color: "#FFFFFF"
+            color: "#00000000"
+            border.color: Universal.accent
             border.width: 1
 
             ListView {
@@ -34,7 +37,6 @@ Window {
                         Label {
                             text: name
                             visible: (value.length > 0)
-                            color: "#B0B0B0"
                             font.italic: true
                             font.pixelSize: valueId ? valueId.font.pixelSize * 0.9 : 0
                             Layout.margins: 0
@@ -42,15 +44,14 @@ Window {
                             Layout.rightMargin: 2
                         }
 
-                        TextEdit {
+                        Label {
                             id: valueId
                             text: value
                             visible: (value.length > 0)
-                            color: "#FFFFFF"
                             font.bold: true
-                            readOnly: true
-                            selectByMouse: true
-                            wrapMode: Text.WordWrap
+                            //readOnly: true
+                            //selectByMouse: true
+                            wrapMode: Label.WrapAnywhere
                             Layout.fillWidth: true
                             Layout.margins: 0
                             Layout.leftMargin: 5
@@ -81,14 +82,15 @@ Window {
                 id: searchField
                 focus: true
                 font.bold: true
-                color: "#FFFFFF"
                 placeholderText: qsTr("Search...")
-                placeholderTextColor: "#FFFFFF"
                 Layout.alignment: Qt.AlignLeft
                 Layout.fillWidth: true
                 Keys.onReturnPressed: search.clicked()
                 Keys.onEnterPressed: search.clicked()
-                // Keys.onPressed: search.clicked()
+                Keys.onPressed: {
+                    if (Qt.platform.os === "android")
+                        search.clicked()
+                }
             }
 
             Button {
