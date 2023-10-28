@@ -21,9 +21,12 @@ ApplicationWindow {
         Rectangle {
             width: parent ? parent.width : 0
             height: childrenRect ? childrenRect.height : 0
-            color: "#00000000"
-            border.color: Universal.accent
+            radius: 5
             border.width: 1
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: "#151515" }
+                GradientStop { position: 1.0; color: "#1A1A1A" }
+            }
 
             ListView {
                 width: parent ? parent.width : 0
@@ -39,9 +42,8 @@ ApplicationWindow {
                             visible: (value.length > 0)
                             font.italic: true
                             font.pixelSize: valueId ? valueId.font.pixelSize * 0.9 : 0
-                            Layout.margins: 0
-                            Layout.leftMargin: 2
-                            Layout.rightMargin: 2
+                            Layout.margins: 5
+                            Layout.bottomMargin: 0
                         }
 
                         Label {
@@ -49,14 +51,11 @@ ApplicationWindow {
                             text: value
                             visible: (value.length > 0)
                             font.bold: true
-                            //readOnly: true
-                            //selectByMouse: true
                             wrapMode: Label.WrapAnywhere
                             Layout.fillWidth: true
-                            Layout.margins: 0
-                            Layout.leftMargin: 5
-                            Layout.rightMargin: 5
-                            Layout.bottomMargin: 2
+                            Layout.margins: 10
+                            Layout.topMargin: 0
+                            Layout.bottomMargin: 5
                             Keys.onBackPressed: { deselect(); focus = false; }
                             Keys.onEscapePressed: { deselect(); focus = false; }
                         }
@@ -91,6 +90,7 @@ ApplicationWindow {
                     if (Qt.platform.os === "android")
                         search.clicked()
                 }
+                Component.onCompleted: background.radius = 5
             }
 
             Button {
@@ -98,6 +98,7 @@ ApplicationWindow {
                 text: qsTr("Search")
                 Layout.alignment: Qt.AlignRight
                 onClicked: wordsListModel.search(searchField.text)
+                Component.onCompleted: background.radius = 5
             }
         }
 
