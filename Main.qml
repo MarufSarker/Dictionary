@@ -106,7 +106,10 @@ ApplicationWindow {
 
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: searchField.doSearch()
+                            onClicked: {
+                                forceActiveFocus()
+                                searchField.doSearch()
+                            }
                         }
                     }
 
@@ -148,7 +151,10 @@ ApplicationWindow {
 
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: searchField.text = ""
+                            onClicked: {
+                                searchField.forceActiveFocus()
+                                searchField.text = ""
+                            }
                         }
                     }
                 }
