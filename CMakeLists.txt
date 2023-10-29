@@ -19,6 +19,10 @@ qt_add_qml_module(Dictionary
     SOURCES wordelementslistmodel.h wordelementslistmodel.cpp
     SOURCES wordslistmodel.h wordslistmodel.cpp
     RESOURCES assets/databases/dictionary.db
+    RESOURCES assets/images/search-black.svg
+    RESOURCES assets/images/search-white.svg
+    RESOURCES assets/images/x-black.svg
+    RESOURCES assets/images/x-white.svg
 )
 
 set(QT_ANDROID_BUILD_ALL_ABIS TRUE CACHE BOOL "" FORCE)

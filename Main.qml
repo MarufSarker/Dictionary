@@ -77,28 +77,81 @@ ApplicationWindow {
             Layout.alignment: Qt.AlignTop
             Layout.margins: 5
 
-            TextField {
-                id: searchField
-                focus: true
-                font.bold: true
-                placeholderText: qsTr("Search...")
-                Layout.alignment: Qt.AlignLeft
+            Rectangle {
                 Layout.fillWidth: true
-                Keys.onReturnPressed: search.clicked()
-                Keys.onEnterPressed: search.clicked()
-                Keys.onPressed: {
-                    if (Qt.platform.os === "android")
-                        search.clicked()
-                }
-                Component.onCompleted: background.radius = 5
-            }
+                implicitHeight: searchField.height + 5
+                color: "#1A1A1A"
+                radius: height * 0.5
+                border.width: 2
+                border.color: "#FFFFFF"
 
-            Button {
-                id: search
-                text: qsTr("Search")
-                Layout.alignment: Qt.AlignRight
-                onClicked: wordsListModel.search(searchField.text)
-                Component.onCompleted: background.radius = 5
+                RowLayout {
+                    width: parent.width - 5
+                    anchors.centerIn: parent
+
+                    Rectangle {
+                        implicitWidth: searchField.height - 5
+                        implicitHeight: searchField.height - 5
+                        Layout.leftMargin: 5
+                        color: "transparent"
+
+                        Image {
+                            source: "qrc:/qt/qml/Dictionary/assets/images/search-white.svg"
+                            anchors.fill: parent
+                            anchors.margins: 3
+                            sourceSize.width: width
+                            sourceSize.height: height
+                            fillMode: Image.PreserveAspectFit
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: searchField.doSearch()
+                        }
+                    }
+
+                    TextField {
+                        id: searchField
+                        focus: true
+                        font.bold: true
+                        color: "#FFFFFF"
+                        placeholderTextColor: "#FFFFFF"
+                        placeholderText: qsTr("Search...")
+                        Layout.alignment: Qt.AlignCenter
+                        Layout.fillWidth: true
+                        Keys.onReturnPressed: doSearch()
+                        Keys.onEnterPressed: doSearch()
+                        Keys.onPressed: {
+                            if (Qt.platform.os === "android")
+                                doSearch()
+                        }
+                        background: Rectangle { color: "transparent" }
+                        function doSearch() {
+                            wordsListModel.search(searchField.text)
+                        }
+                    }
+
+                    Rectangle {
+                        implicitWidth: searchField.height - 5
+                        implicitHeight: searchField.height - 5
+                        Layout.rightMargin: 5
+                        color: "transparent"
+
+                        Image {
+                            source: "qrc:/qt/qml/Dictionary/assets/images/x-white.svg"
+                            anchors.fill: parent
+                            anchors.margins: 3
+                            sourceSize.width: width
+                            sourceSize.height: height
+                            fillMode: Image.PreserveAspectFit
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: searchField.text = ""
+                        }
+                    }
+                }
             }
         }
 
