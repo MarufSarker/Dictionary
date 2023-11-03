@@ -43,3 +43,18 @@ void WordElementsListModel::clear()
     mNames.clear();
     mValues.clear();
 }
+
+bool WordElementsListModel::equals(WordElementsListModel const* other) const
+{
+    QString key = "English";
+    QString v = mValues.value(mNames.indexOf(key));
+    QString vO = other->mValues.value(other->mNames.indexOf(key));
+    if (v.isEmpty() || vO.isEmpty() || v != vO)
+        return false;
+    key = "Bengali";
+    v = mValues.value(mNames.indexOf(key));
+    vO = other->mValues.value(other->mNames.indexOf(key));
+    if (v.isEmpty() || vO.isEmpty() || v != vO)
+        return false;
+    return true;
+}

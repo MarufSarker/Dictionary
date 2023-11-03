@@ -16,6 +16,7 @@ public:
 
     int rowCount(QModelIndex const& parent) const override;
     QVariant data(QModelIndex const& index, int role = Qt::DisplayRole) const override;
+    bool equals(WordElementsListModel const* other) const;
 
 protected:
     QHash<int, QByteArray> roleNames() const override;

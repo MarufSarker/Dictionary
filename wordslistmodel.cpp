@@ -120,28 +120,39 @@ void WordsListModel::search(QString const& queries)
     if (queries.isEmpty() || !mDb.isOpen())
         return;
 
+    QList<WordElementsListModel*> tmpData;
     QSqlQuery query;
 
     query.prepare("SELECT * FROM dictionary WHERE [bn] = (:bn) OR [en] = (:en) LIMIT 10");
     query.bindValue(":bn", queries);
     query.bindValue(":en", queries);
-    queryDb(this, query, mData);
+    queryDb(this, query, tmpData);
 
     query.prepare("SELECT * FROM dictionary WHERE [bn] LIKE (:bn) OR [en] LIKE (:en) LIMIT 10");
     query.bindValue(":bn", queries + "%");
     query.bindValue(":en", queries + "%");
-    queryDb(this, query, mData);
+    queryDb(this, query, tmpData);
 
     query.prepare("SELECT * FROM dictionary WHERE [bn] LIKE (:bn) OR [en] LIKE (:en) LIMIT 10");
     query.bindValue(":bn", "%" + queries);
     query.bindValue(":en", "%" + queries);
-    queryDb(this, query, mData);
+    queryDb(this, query, tmpData);
 
     if (queries.size() > 2) {
         query.prepare("SELECT * FROM dictionary WHERE [bn] LIKE (:bn) OR [en] LIKE (:en) LIMIT 10");
         query.bindValue(":bn", "%" + queries + "%");
         query.bindValue(":en", "%" + queries + "%");
-        queryDb(this, query, mData);
+        queryDb(this, query, tmpData);
+    }
+
+    for (auto const& tmp : tmpData)
+    {
+        bool found = false;
+        for (auto const& v : mData)
+            if (v->equals(tmp))
+                found = true;
+        if (!found)
+            mData.append(tmp);
     }
 
     beginInsertRows(QModelIndex(), 0, mData.size() - 1);
