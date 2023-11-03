@@ -65,6 +65,11 @@ ApplicationWindow {
                 spacing: 0
                 interactive: false
             }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: parent.forceActiveFocus()
+            }
         }
     }
 
@@ -127,8 +132,8 @@ ApplicationWindow {
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
-                                searchField.forceActiveFocus()
                                 searchField.text = ""
+                                searchField.forceActiveFocus()
                             }
                         }
                     }
