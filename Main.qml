@@ -156,7 +156,7 @@ ApplicationWindow {
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
-                                forceActiveFocus()
+                                parent.forceActiveFocus()
                                 searchField.doSearch()
                             }
                         }
