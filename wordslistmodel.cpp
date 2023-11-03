@@ -132,6 +132,11 @@ void WordsListModel::search(QString const& queries)
     query.bindValue(":en", queries + "%");
     queryDb(this, query, mData);
 
+    query.prepare("SELECT * FROM dictionary WHERE [bn] LIKE (:bn) OR [en] LIKE (:en) LIMIT 10");
+    query.bindValue(":bn", "%" + queries);
+    query.bindValue(":en", "%" + queries);
+    queryDb(this, query, mData);
+
     if (queries.size() > 2) {
         query.prepare("SELECT * FROM dictionary WHERE [bn] LIKE (:bn) OR [en] LIKE (:en) LIMIT 10");
         query.bindValue(":bn", "%" + queries + "%");
