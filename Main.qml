@@ -89,30 +89,6 @@ ApplicationWindow {
                     width: parent.width - 5
                     anchors.centerIn: parent
 
-                    Rectangle {
-                        implicitWidth: searchField.height - 5
-                        implicitHeight: searchField.height - 5
-                        Layout.leftMargin: 5
-                        color: "transparent"
-
-                        Image {
-                            source: "qrc:/qt/qml/Dictionary/assets/images/search-white.svg"
-                            anchors.fill: parent
-                            anchors.margins: 3
-                            sourceSize.width: width
-                            sourceSize.height: height
-                            fillMode: Image.PreserveAspectFit
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                forceActiveFocus()
-                                searchField.doSearch()
-                            }
-                        }
-                    }
-
                     TextField {
                         id: searchField
                         focus: true
@@ -137,7 +113,6 @@ ApplicationWindow {
                     Rectangle {
                         implicitWidth: searchField.height - 5
                         implicitHeight: searchField.height - 5
-                        Layout.rightMargin: 5
                         color: "transparent"
 
                         Image {
@@ -154,6 +129,30 @@ ApplicationWindow {
                             onClicked: {
                                 searchField.forceActiveFocus()
                                 searchField.text = ""
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        implicitWidth: searchField.height - 5
+                        implicitHeight: searchField.height - 5
+                        Layout.rightMargin: 5
+                        color: "transparent"
+
+                        Image {
+                            source: "qrc:/qt/qml/Dictionary/assets/images/search-white.svg"
+                            anchors.fill: parent
+                            anchors.margins: 3
+                            sourceSize.width: width
+                            sourceSize.height: height
+                            fillMode: Image.PreserveAspectFit
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                forceActiveFocus()
+                                searchField.doSearch()
                             }
                         }
                     }
