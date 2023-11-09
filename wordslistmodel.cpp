@@ -13,28 +13,76 @@ WordsListModel::WordsListModel(QObject *parent)
         if (!dir.exists())
             dir.mkpath(loc);
 
-        QString src = ":/qt/qml/Dictionary/assets/databases/dictionary.db";
+        QString src = ":/assets/databases/dictionary.db";
         QString dst = loc + "/dictionary.db";
+        QFile srcFile (src);
+        QFile dstFile (dst);
 
-        qDebug() << "[Source]" << src ;
-        qDebug() << "[Destination]" << dst;
+        qDebug() << "[Source]" << src << srcFile.fileName();
+        qDebug() << "[Destination]" << dst << dstFile.fileName();
 
-        if (QFile::exists(dst))
+        if (!dstFile.exists())
         {
-            if (QFileInfo(dst).lastModified().daysTo(QDateTime::currentDateTime()) < 1)
-                dbPath = dst;
-            else if (QFile::remove(dst) && QFile::copy(src, dst))
-                dbPath = dst;
-            else
+            qDebug() << dstFile.fileName() << "does not exists";
+            if (!srcFile.copy(dst))
+            {
                 dbPath = {};
+                qDebug() << "Failed to copy" << srcFile.fileName() << "to" << dstFile.fileName();
+                qDebug() << srcFile.error() << srcFile.errorString();
+                return;
+            }
+            qDebug() << "Copied" << srcFile.fileName() << "to" << dst;
+            dbPath = dst;
+        }
+        else if (QFileInfo(dst).lastModified().daysTo(QDateTime::currentDateTime()) < 1)
+        {
+            qDebug() << dst << "exists and recent";
+            dbPath = dst;
         }
         else
         {
-            if (QFile::copy(src, dst))
-                dbPath = dst;
-            else
+            if (!dstFile.remove())
+            {
                 dbPath = {};
+                qDebug() << "Failed to remove" << dstFile.fileName();
+                qDebug() << dstFile.error() << dstFile.errorString();
+                return;
+            }
+            qDebug() << "Removed" << dstFile.fileName();
+            if (!srcFile.copy(dst))
+            {
+                dbPath = {};
+                qDebug() << "Failed to copy" << srcFile.fileName() << "to" << dstFile.fileName();
+                qDebug() << srcFile.error() << srcFile.errorString();
+                return;
+            }
+            qDebug() << "Copied" << srcFile.fileName() << "to" << dst;
+            dbPath = dst;
         }
+
+
+//        if (QFile::exists(dst))
+//        {
+//            if (QFileInfo(dst).lastModified().daysTo(QDateTime::currentDateTime()) < 1)
+//                dbPath = dst;
+//            else if (QFile::remove(dst) && QFile::copy(src, dst))
+//                dbPath = dst;
+//            else
+//            {
+//                dbPath = {};
+//                qDebug() << "Failed to find existing cache file or copy file.";
+//            }
+//        }
+//        else
+//        {
+//            if (QFile::copy(src, dst))
+//                dbPath = dst;
+//            else
+//            {
+//                dbPath = {};
+//                qDebug() << "Failed to copy file";
+//            }
+//        }
     }
 
     qDebug() << "[Database]" << dbPath;

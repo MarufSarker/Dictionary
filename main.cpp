@@ -1,11 +1,19 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QDirIterator>
 #include "wordslistmodel.h"
 
 
 int main(int argc, char *argv[])
 {
+    for (auto v : QList({":", "qrc:", "assets:"}))
+    {
+        QDirIterator it(v, QDirIterator::Subdirectories);
+        while (it.hasNext())
+            qDebug() << it.next();
+    }
+
     QGuiApplication app(argc, argv);
 
     WordsListModel wordsListModel;

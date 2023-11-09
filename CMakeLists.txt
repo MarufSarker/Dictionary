@@ -18,12 +18,29 @@ qt_add_qml_module(Dictionary
     QML_FILES Main.qml
     SOURCES wordelementslistmodel.h wordelementslistmodel.cpp
     SOURCES wordslistmodel.h wordslistmodel.cpp
-    RESOURCES assets/databases/dictionary.db
-    RESOURCES assets/images/search-black.svg
-    RESOURCES assets/images/search-white.svg
-    RESOURCES assets/images/x-black.svg
-    RESOURCES assets/images/x-white.svg
+#    RESOURCES assets/databases/dictionary.db
+#    RESOURCES assets/images/search-black.svg
+#    RESOURCES assets/images/search-white.svg
+#    RESOURCES assets/images/x-black.svg
+#    RESOURCES assets/images/x-white.svg
+#    RESOURCES android/res/values/libs.xml android/AndroidManifest.xml android/build.gradle
 )
+
+set(M_BIG_RESOURCES "")
+
+if(ANDROID)
+    set(M_BIG_RESOURCES "BIG_RESOURCES")
+endif()
+
+qt_add_resources(Dictionary "assets" ${M_BIG_RESOURCES}
+FILES
+    assets/databases/dictionary.db
+    assets/images/search-black.svg
+    assets/images/search-white.svg
+    assets/images/x-black.svg
+    assets/images/x-white.svg
+)
+
 
 set(QT_ANDROID_BUILD_ALL_ABIS TRUE CACHE BOOL "" FORCE)
 
@@ -36,6 +53,7 @@ set_target_properties(Dictionary PROPERTIES
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
+    QT_ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_SOURCE_DIR}/android"
 )
 
 if(NOT(ANDROID))

@@ -56,8 +56,8 @@ ApplicationWindow {
                             Layout.margins: 10
                             Layout.topMargin: 0
                             Layout.bottomMargin: 5
-                            Keys.onBackPressed: { deselect(); focus = false; }
-                            Keys.onEscapePressed: { deselect(); focus = false; }
+//                            Keys.onBackPressed: { deselect(); focus = false; }
+//                            Keys.onEscapePressed: { deselect(); focus = false; }
                         }
                     }
                 }
@@ -66,10 +66,10 @@ ApplicationWindow {
                 interactive: false
             }
 
-            MouseArea {
-                anchors.fill: parent
-                onClicked: parent.forceActiveFocus()
-            }
+//            MouseArea {
+//                anchors.fill: parent
+//                onClicked: parent.forceActiveFocus()
+//            }
         }
     }
 
@@ -103,14 +103,17 @@ ApplicationWindow {
                         placeholderText: qsTr("Search...")
                         Layout.alignment: Qt.AlignCenter
                         Layout.fillWidth: true
-                        Keys.onReturnPressed: doSearch()
-                        Keys.onEnterPressed: doSearch()
+                        Keys.onReturnPressed: doSearch("Keys.onReturnPressed")
+                        Keys.onEnterPressed: doSearch("Keys.onEnterPressed")
                         Keys.onPressed: {
-                            if (Qt.platform.os === "android")
-                                doSearch()
+                            if (Qt.platform.os === "android") {
+                                doSearch("Keys.onPressed [android]")
+                                focus = false
+                            }
                         }
                         background: Rectangle { color: "transparent" }
-                        function doSearch() {
+                        function doSearch(tag="") {
+                            console.log(tag, "Searching", searchField.text)
                             wordsListModel.search(searchField.text)
                         }
                     }
@@ -121,7 +124,7 @@ ApplicationWindow {
                         color: "transparent"
 
                         Image {
-                            source: "qrc:/qt/qml/Dictionary/assets/images/x-white.svg"
+                            source: "qrc:/assets/images/x-white.svg"
                             anchors.fill: parent
                             anchors.margins: 3
                             sourceSize.width: width
@@ -145,7 +148,7 @@ ApplicationWindow {
                         color: "transparent"
 
                         Image {
-                            source: "qrc:/qt/qml/Dictionary/assets/images/search-white.svg"
+                            source: "qrc:/assets/images/search-white.svg"
                             anchors.fill: parent
                             anchors.margins: 3
                             sourceSize.width: width
